@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "@/lib/axios";
-import { Employee } from "@/type";
+import { iEmployee } from "@/type";
 
 interface EmployeeState {
-  employees: Employee[];
+  employees: iEmployee[];
   loading: boolean;
   error: string | null;
 }
@@ -16,7 +16,7 @@ const initialState: EmployeeState = {
 };
 
 // Fetch all employees
-export const fetchEmployees = createAsyncThunk<Employee[], void>(
+export const fetchEmployees = createAsyncThunk<iEmployee[], void>(
   "employees/fetchEmployees",
   async (_, { rejectWithValue }) => {
     try {
@@ -31,7 +31,7 @@ export const fetchEmployees = createAsyncThunk<Employee[], void>(
 );
 
 // Add a new employee
-export const addEmployee = createAsyncThunk<Employee, Partial<Employee>>(
+export const addEmployee = createAsyncThunk<iEmployee, Partial<iEmployee>>(
   "employees/addEmployee",
   async (employeeData, { rejectWithValue }) => {
     try {
@@ -49,7 +49,7 @@ export const deleteEmployee = createAsyncThunk<number, number>(
   async (employeeId, { rejectWithValue }) => {
     try {
       await axios.delete(`/employees/${employeeId}`);
-      return employeeId;  // Kembalikan ID employee yang dihapus
+      return employeeId;
     } catch (error: any) {
       return rejectWithValue(error.response?.data || "Failed to delete employee");
     }

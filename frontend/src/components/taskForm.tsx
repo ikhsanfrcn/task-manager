@@ -4,13 +4,13 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addTask, fetchTasks } from "../redux/slices/taskSlice";
 import { AppDispatch, RootState } from "@/redux/store";
-import { Employee } from "@/type";
 import { Button } from "./atoms/button";
+import { iEmployee } from "@/type";
 
 interface TaskFormProps {
     isOpen: boolean;
     closeModal: () => void;
-    employees: Employee[];
+    employees: iEmployee[];
 }
 
 
@@ -21,7 +21,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ isOpen, closeModal }) => {
     const [loading, setLoading] = useState(false);
 
     const [formData, setFormData] = useState({
-        description: "",
+        task_description: "",
         employee_id: "",
         hours_spent: "",
         hourly_rate: "",
@@ -46,7 +46,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ isOpen, closeModal }) => {
             const response = await dispatch(
                 addTask({
                     employee_id: Number(formData.employee_id),
-                    description: formData.description,
+                    task_description: formData.task_description,
                     hours_spent: Number(formData.hours_spent),
                     hourly_rate: Number(formData.hourly_rate),
                     additional_charges: formData.additional_charges ? Number(formData.additional_charges) : 0
@@ -70,7 +70,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ isOpen, closeModal }) => {
                     <form onSubmit={handleSubmit}>
                         <div className="mb-2">
                             <label className="block text-sm font-medium">Description</label>
-                            <input type="text" name="description" value={formData.description} onChange={handleChange} className="w-full border p-2 rounded" required />
+                            <input type="text" name="description" value={formData.task_description} onChange={handleChange} className="w-full border p-2 rounded" required />
                         </div>
                         <div className="mb-2">
                             <label className="block text-sm font-medium">Employee</label>

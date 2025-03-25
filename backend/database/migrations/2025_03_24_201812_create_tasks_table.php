@@ -15,12 +15,7 @@ return new class extends Migration
     {
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('employee_id')->constrained()->onDelete('cascade');
-            $table->string('description');
-            $table->float('hours_spent');
-            $table->float('hourly_rate');
-            $table->float('additional_charges')->nullable();
-            $table->float('total_remuneration');
+            $table->text('description');
             $table->timestamps();
         });
     }

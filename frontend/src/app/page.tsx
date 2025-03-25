@@ -5,12 +5,12 @@ import DeleteConfirmation from "@/components/molecules/deleteConfimation";
 import EmployeeForm from "@/components/employeeForm";
 import TaskEditForm from "@/components/taskEditForm";
 import TaskForm from "@/components/taskForm";
-import { deleteEmployee, fetchEmployees } from "@/redux/slices/employeeSlice";
+import { deleteEmployee } from "@/redux/slices/employeeSlice";
 import { AppDispatch, RootState } from "@/redux/store";
 import { fetchTasks, deleteTask } from "@/redux/slices/taskSlice";
-import { Task } from "@/type";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { iTaskDetails } from "@/type";
 
 const Page = () => {
     const dispatch = useDispatch<AppDispatch>();
@@ -19,18 +19,18 @@ const Page = () => {
     const [isEmployeeFormOpen, setEmployeeFormOpen] = useState(false);
     const [isTaskFormOpen, setTaskFormOpen] = useState(false);
     const [isTaskEditFormOpen, setTaskEditFormOpen] = useState(false);
-    const [taskToEdit, setTaskToEdit] = useState<Task | null>(null);
+    const [taskToEdit, setTaskToEdit] = useState<iTaskDetails | null>(null);
     const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
     const [taskToDelete, setTaskToDelete] = useState<number | null>(null);
     const [employeeToDelete, setEmployeeToDelete] = useState<number | null>(null);
 
 
     useEffect(() => {
-        dispatch(fetchEmployees());
+        //dispatch(fetchEmployees())
         dispatch(fetchTasks());
     }, [dispatch]);
 
-    const openEditTaskModal = (task: Task) => {
+    const openEditTaskModal = (task: iTaskDetails) => {
         setTaskToEdit(task);
         setTaskEditFormOpen(true);
     };
@@ -40,8 +40,8 @@ const Page = () => {
         setTaskToEdit(null);
     };
 
-    const openDeleteModalTask = (taskId: number) => {
-        setTaskToDelete(taskId);
+    const openDeleteModalTask = (id: number) => {
+        setTaskToDelete(id);
         setDeleteModalOpen(true);
     };
 
@@ -145,6 +145,7 @@ const Page = () => {
                     <tr className="bg-gray-200">
                         <th className="border border-gray-300 px-4 py-2">Employee</th>
                         <th className="border border-gray-300 px-4 py-2">Description</th>
+                        <th className="border border-gray-300 px-4 py-2">Date</th>
                         <th className="border border-gray-300 px-4 py-2">Hours Spent</th>
                         <th className="border border-gray-300 px-4 py-2">Hourly Rate</th>
                         <th className="border border-gray-300 px-4 py-2">Additional Charges</th>
@@ -154,18 +155,17 @@ const Page = () => {
                 </thead>
                 <tbody>
                     {tasks.map((task, index) => {
-                        // Gabungkan task.id dan task.employee_id untuk memastikan key yang unik
                         const taskKey = `${task.id}-${task.employee_id}-${index}`;
+                        console.log(tasks);
 
                         return (
                             <tr key={taskKey} className="text-center">
-                                <td className="border border-gray-300 px-4 py-2">
-                                    {employees.find((e) => e.id === task.employee_id)?.name || "-"}
-                                </td>
-                                <td className="border border-gray-300 px-4 py-2">{task.description}</td>
+                                <td className="border border-gray-300 px-4 py-2">{task.employee_name}</td>
+                                <td className="border border-gray-300 px-4 py-2">{task.task_description}</td>
+                                <td className="border border-gray-300 px-4 py-2">{task.date}</td>
                                 <td className="border border-gray-300 px-4 py-2">{task.hours_spent}</td>
                                 <td className="border border-gray-300 px-4 py-2">{task.hourly_rate}</td>
-                                <td className="border border-gray-300 px-4 py-2">{task.additional_charges ?? "0"}</td>
+                                <td className="border border-gray-300 px-4 py-2">{task.additional_charges}</td>
                                 <td className="border border-gray-300 px-4 py-2">{task.total_remuneration}</td>
                                 <td className="border border-gray-300 px-4 py-2">
                                     <Button

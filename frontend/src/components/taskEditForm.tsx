@@ -4,14 +4,14 @@ import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { editTask, fetchTasks } from "../redux/slices/taskSlice";
 import { AppDispatch } from "@/redux/store";
-import { Employee, Task } from "@/type";
 import { Button } from "./atoms/button";
+import { iEmployee, iTaskDetails } from "@/type";
 
 interface TaskEditFormProps {
     isOpen: boolean;
     closeModal: () => void;
-    task: Task | null;
-    employees: Employee[];
+    task: iTaskDetails | null;
+    employees: iEmployee[];
 }
 
 const TaskEditForm: React.FC<TaskEditFormProps> = ({ isOpen, closeModal, task, employees }) => {
@@ -35,7 +35,7 @@ const TaskEditForm: React.FC<TaskEditFormProps> = ({ isOpen, closeModal, task, e
     useEffect(() => {
         if (task) {
             setFormData({
-                description: task.description || "",
+                description: task.task_description || "",
                 employee_id: task.employee_id.toString() || "",
                 hours_spent: task.hours_spent.toString() || "",
                 hourly_rate: task.hourly_rate.toString() || "",
@@ -71,7 +71,7 @@ const TaskEditForm: React.FC<TaskEditFormProps> = ({ isOpen, closeModal, task, e
                     editTask({
                         id: task.id, 
                         taskData: { 
-                            description: formData.description,
+                            task_description: formData.description,
                             employee_id: Number(formData.employee_id), 
                             hours_spent: Number(formData.hours_spent),
                             hourly_rate: Number(formData.hourly_rate),

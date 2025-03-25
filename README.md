@@ -12,7 +12,7 @@ Aplikasi ini memiliki arsitektur **client-server** dengan pembagian sebagai beri
 ## 3. Desain Aplikasi
 Aplikasi ini dirancang dengan fokus pada **kemudahan penggunaan** dan **UI yang sederhana**. Terdapat dua fitur utama:
 1. **Manajemen Pegawai**:
-   - Input pegawai baru (hanya nama).
+   - Input pegawai baru.
    - Menampilkan daftar pegawai.
 2. **Manajemen Tugas**:
    - Input tugas untuk pegawai.
@@ -84,7 +84,7 @@ Akses aplikasi di **http://localhost:3000**.
 ```sh
 http://localhost:8000/api
 ```
-### 5.1. Employees
+### 5.1. Employees (*sedang tidak dapat digunakan))
 - **GET** `/employees` → Mendapatkan daftar pegawai.
 - **POST** `/employees` → Menambahkan pegawai baru.
   - **Body**:
@@ -95,17 +95,22 @@ http://localhost:8000/api
     ```
 
 ### 5.2. Tasks
-- **GET** `/tasks` → Mendapatkan daftar tugas.
-- **POST** `/tasks` → Menambahkan tugas baru.
+- **GET** `/tasklists` → Mendapatkan daftar tugas.
+- **POST** `/tasklists` → Menambahkan tugas baru.
   - **Body**:
     ```json
     {
-      "employee_id": 1,
-      "description": "Writing Documents",
-      "hours_spent": 5,
-      "hourly_rate": 100000,
-      "additional_charges": 50000
-    }
+        "id": 13,
+        "task_description": "Task Z",
+        "task_detail_id": 12,
+        "employee_id": 1,
+        "employee_name": "Pegawai A",
+        "hourly_rate": "50.00",
+        "date": "2025-03-25 01:03:59",
+        "hours_spent": "5.00",
+        "additional_charges": "100.00",
+        "total_remuneration": "375.00"
+    },
     ```
 
 ## 6. Teknologi yang Digunakan
@@ -117,5 +122,27 @@ http://localhost:8000/api
 - Data pada frontend akan **otomatis diperbarui** setelah input pegawai/tugas tanpa perlu refresh manual.
 - Jika ada error, periksa **console log** atau **network request** di browser.
 - Pastikan backend dan database berjalan dengan benar sebelum mengakses frontend.
+- untuk saat ini karena banyak perubahan, ADD masih belum bisa digunakan dari UI.
+- untuk ADD bisa gunakan api http://localhost:8000/api/tasklists method POST dengan format JSON contoh:
+```sh
+{
+    "deskripsi": "Pekerjaan X",
+    "detail": [
+        {
+            "id_pegawai": 1,
+            "jam_kerja": 5,
+            "tarif_per_jam": 50,
+            "biaya_tambahan": 100
+        },
+        {
+            "id_pegawai": 2,
+            "jam_kerja": 3,
+            "tarif_per_jam": 60,
+            "biaya_tambahan": 100
+        }
+    ]
+}
+```
+- untuk EDIT masih ada error, response 200 namun tidak terupdate di database.
 
 ---

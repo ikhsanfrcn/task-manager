@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "@/lib/axios";
-import { Task } from "@/type";
+import { iTaskDetails } from "@/type";
 
 interface TaskState {
-    tasks: Task[];
+    tasks: iTaskDetails[];
     loading: boolean;
     error: string | null;
 }
@@ -16,11 +16,11 @@ const initialState: TaskState = {
 };
 
 // Fetch all tasks
-export const fetchTasks = createAsyncThunk<Task[], void>(
+export const fetchTasks = createAsyncThunk<iTaskDetails[], void>(
     "tasks/fetchTasks",
     async (_, { rejectWithValue }) => {
         try {
-            const response = await axios.get("/tasks");
+            const response = await axios.get("/tasklists");
             return response.data;
         } catch (error: any) {
             return rejectWithValue(error.response?.data || "Failed to fetch tasks");
@@ -29,11 +29,11 @@ export const fetchTasks = createAsyncThunk<Task[], void>(
 );
 
 // Add a new task
-export const addTask = createAsyncThunk<Task, Partial<Task>>(
+export const addTask = createAsyncThunk<iTaskDetails, Partial<iTaskDetails>>(
     "tasks/addTask",
     async (taskData, { rejectWithValue }) => {
         try {
-            const response = await axios.post("/tasks", taskData);
+            const response = await axios.post("/tasklists", taskData);
             return response.data;
         } catch (error: any) {
             return rejectWithValue(error.response?.data || "Failed to add task");
@@ -43,14 +43,14 @@ export const addTask = createAsyncThunk<Task, Partial<Task>>(
 
 // Edit an existing task
 export const editTask = createAsyncThunk<
-    Task,
-    { id: number; taskData: Partial<Task> },
+    iTaskDetails,
+    { id: number; taskData: Partial<iTaskDetails> },
     { rejectValue: string }
 >(
     "tasks/editTask",
     async ({ id, taskData }, { rejectWithValue }) => {
         try {
-            const response = await axios.put(`/tasks/${id}`, taskData);
+            const response = await axios.put(`/tasklists/${id}`, taskData);
             return response.data;
         } catch (error: any) {
             return rejectWithValue(error.response?.data || "Failed to edit task");
@@ -64,7 +64,7 @@ export const deleteTask = createAsyncThunk<number, number>(
     "tasks/deleteTask",
     async (id, { rejectWithValue }) => {
         try {
-            await axios.delete(`/tasks/${id}`);
+            await axios.delete(`/tasklists/${id}`);
             return id;
         } catch (error: any) {
             return rejectWithValue(error.response?.data || "Failed to delete task");

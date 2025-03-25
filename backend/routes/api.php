@@ -20,11 +20,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 use App\Http\Controllers\TaskController;
-Route::apiResource('tasks', TaskController::class);
-// Route::get('/tasks', [TaskController::class, 'index']);
-// Route::post('/tasks', [TaskController::class, 'store']);
-
-use App\Http\Controllers\EmployeeController;
-Route::apiResource('employees', EmployeeController::class);
-// Route::get('/employees', [EmployeeController::class, 'index']);
-// Route::post('/employees', [EmployeeController::class, 'store']);
+Route::apiResource('tasklists', TaskController::class);
+Route::get('/tasklists/{id}/remuneration', [TaskController::class, 'remunerationCount']);
+// Route::post('/tasklists', [TaskController::class, 'store']);
